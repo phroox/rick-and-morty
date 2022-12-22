@@ -18,7 +18,7 @@
     "eslint-config-next": "13.0.7",
     "next": "13.0.7",
     "next-auth": "^4.18.6",
-    "primeflex": "^3.3.0",
+    "primeflex": "^2.0.0",
     "primeicons": "^6.0.1",
     "primereact": "^8.7.3",
     "react": "18.2.0",
