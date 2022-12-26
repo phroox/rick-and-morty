@@ -1,6 +1,10 @@
+// React & Next
+import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import { useEffect, useRef, useState } from 'react';
+// Primereact
 import { Button } from 'primereact/button';
-import { useEffect, useState } from 'react';
 import { Menubar } from 'primereact/menubar';
 import {
     ToggleButton,
@@ -8,7 +12,19 @@ import {
 } from 'primereact/togglebutton';
 
 export default function Layout({ children }: React.PropsWithChildren) {
+    const router = useRouter();
+    const [logo, setLogo] = useState('/rick-morty.png');
     const [toggleTheme, setToggleTheme] = useState<boolean>(false);
+
+    const THEMES = {
+        light: 'lara-light-teal.css',
+        dark: 'lara-dark-teal.css',
+    };
+
+    const LOGOS = {
+        light: '/rick-morty.png',
+        dark: '/rick-morty-white.png',
+    };
 
     useEffect(() => {
         const themeLink = document.getElementById(
@@ -16,8 +32,12 @@ export default function Layout({ children }: React.PropsWithChildren) {
         ) as HTMLAnchorElement;
         if (themeLink) {
             if (toggleTheme) {
-                themeLink.href = 'lara-light-teal.css';
-            } else themeLink.href = 'lara-dark-teal.css';
+                themeLink.href = THEMES.light;
+                setLogo(LOGOS.light);
+            } else {
+                themeLink.href = THEMES.dark;
+                setLogo(LOGOS.dark);
+            }
         }
     }, [toggleTheme]);
 
@@ -29,25 +49,16 @@ export default function Layout({ children }: React.PropsWithChildren) {
 
     const start = (
         <>
-            {toggleTheme ? (
+            <Link href="/">
                 <Image
                     alt="logo"
-                    src="/rick-morty.png"
+                    src={logo}
                     height={50}
                     width={50}
                     priority
                     quality={100}
                 />
-            ) : (
-                <Image
-                    alt="logo"
-                    src="/rick-morty-white.png"
-                    height={50}
-                    width={50}
-                    priority
-                    quality={100}
-                />
-            )}
+            </Link>
         </>
     );
 
@@ -69,6 +80,7 @@ export default function Layout({ children }: React.PropsWithChildren) {
                 label="Login"
                 icon="pi pi-sign-in"
                 iconPos="right"
+                onClick={() => router.push('/login')}
             />
         </div>
     );
