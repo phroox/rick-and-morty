@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useContext, useEffect, useState } from 'react';
 // Primereact
 import { Button } from 'primereact/button';
 import { Menubar } from 'primereact/menubar';
@@ -13,6 +13,8 @@ import {
 // Images
 import LightLogo from '../public/rick-morty.png';
 import DarkLogo from '../public/rick-morty-white.png';
+// Contexts
+import { ThemeContext } from '../contexts/contexts';
 
 const THEMES = {
     light: 'lara-light-teal.css',
@@ -37,25 +39,33 @@ interface LayoutProps {
 
 export default function Layout({ children, setTheme }: LayoutProps) {
     const router = useRouter();
-    const [logo, setLogo] = useState(LightLogo);
+    const theme = useContext(ThemeContext);
+    const [logo, setLogo] = useState(DarkLogo);
     const [toggleTheme, setToggleTheme] = useState<boolean>(false);
 
-    const changeTheme = (e: ToggleButtonChangeParams) => {
+    useEffect(() => {
+        const storagedTheme = window.localStorage.getItem('theme');
+        if (storagedTheme != theme) changeTheme(!toggleTheme);
+    }, []);
+
+    const changeTheme = (checked: boolean) => {
         const themeLink = document.getElementById(
             'app-theme'
         ) as HTMLAnchorElement;
         if (themeLink) {
-            if (e.value) {
+            if (checked) {
                 themeLink.href = THEMES.light;
                 setLogo(LOGOS.light);
                 setTheme('light');
+                window.localStorage.setItem('theme', 'light');
             } else {
                 themeLink.href = THEMES.dark;
                 setLogo(LOGOS.dark);
                 setTheme('dark');
+                window.localStorage.setItem('theme', 'dark');
             }
         }
-        setToggleTheme(e.value);
+        setToggleTheme(checked);
     };
 
     const start = (
@@ -73,7 +83,7 @@ export default function Layout({ children, setTheme }: LayoutProps) {
                 offIcon="pi pi-moon"
                 className="p-button-rounded"
                 checked={toggleTheme}
-                onChange={changeTheme}
+                onChange={(e: ToggleButtonChangeParams) => changeTheme(e.value)}
             />
             <Button
                 className="p-button-sm"
