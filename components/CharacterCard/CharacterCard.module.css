@@ -1,0 +1,135 @@
+/* flip-container */
+.card {
+    font-family: var(--font-family);
+    display: inline-block;
+}
+
+.cardInner {
+    display: flex;
+    overflow: hidden;
+    border-radius: 7px;
+    min-width: 600px;
+    max-width: 767px;
+    height: 300px;
+}
+
+.cardHeader,
+.cardBody {
+    width: 100%;
+}
+
+.cardBody {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--surface-a);
+    padding: 20px;
+}
+
+.charName {
+    font-size: 1.75rem;
+    vertical-align: center;
+}
+
+.detailsButton {
+    display: flex;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--font-primary);
+    background-color: transparent;
+    border: none;
+    align-self: end;
+}
+
+.buttonIcon {
+    animation-timing-function: ease;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    transform-origin: bottom;
+    margin-left: 2px;
+}
+
+.detailsButton:hover .buttonIcon {
+    animation-name: bounce;
+}
+
+.statsList {
+    list-style-type: none;
+}
+.stat {
+    display: flex;
+    padding: 4px 0;
+}
+.text {
+    margin-left: auto;
+}
+
+.link {
+    border-bottom: 1px solid white;
+}
+
+.switch {
+    display: none;
+}
+
+@keyframes bounce {
+    0% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 768px) {
+    /* flip-container */
+    .card {
+        display: inline-block;
+        width: 250px;
+        height: 300px;
+        perspective: 1000px;
+    }
+
+    /* flipper */
+    .cardInner {
+        position: relative;
+        overflow: unset;
+        font-family: var(--font-family);
+        width: 100%;
+        height: 100%;
+        min-width: unset;
+        max-width: unset;
+        transition: transform 0.8s;
+        transform-style: preserve-3d;
+    }
+
+    .cardHeader,
+    .cardBody {
+        position: absolute;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        border-radius: 7px;
+        backface-visibility: hidden;
+    }
+
+    .cardBody {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 20px;
+        background-color: var(--surface-a);
+        transform: rotateY(180deg);
+    }
+
+    .cardImage {
+        margin-left: -25px;
+    }
+
+    .switch:checked + .cardContainer .cardInner {
+        transform: rotateY(180deg);
+    }
+}
