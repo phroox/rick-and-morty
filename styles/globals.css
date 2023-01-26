@@ -139,6 +139,10 @@ body {
         rgb(var(--background-start-rgb));
 }
 
+.p-menubar {
+    border-radius: 0px;
+}
+
 a {
     color: inherit;
     text-decoration: none;
