@@ -27,7 +27,9 @@
 }
 
 .charName {
-    font-size: 1.75rem;
+    align-self: center;
+    font-size: clamp(15px, 1.75rem, 20px);
+    /* font-size: 1.75rem; */
     vertical-align: center;
 }
 
@@ -55,6 +57,7 @@
 
 .statsList {
     list-style-type: none;
+    line-height: 1rem;
 }
 .stat {
     display: flex;
@@ -108,6 +111,7 @@
 
     .cardHeader,
     .cardBody {
+        border: 1px solid #5eead4;
         position: absolute;
         overflow: hidden;
         width: 100%;

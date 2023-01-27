@@ -6,11 +6,11 @@ import styles from './CharacterCard.module.css';
 interface CharacterCardProps {
     name: string;
     image: string | StaticImageData;
-    description?: string | undefined;
-    status?: string | undefined;
-    species?: string | undefined;
-    type?: string | undefined;
-    gender?: string | undefined;
+    description?: string;
+    status?: string;
+    species?: string;
+    type?: string;
+    gender?: string;
     origin?: { name: string; url: string };
     location?: { name: string; url: string };
     emptyValue?: string;
@@ -36,12 +36,12 @@ export default function CharacterCard({
         return content || fallback;
     };
 
-    const id = useId()
+    const id = useId();
 
     return (
         <>
             <input type="checkbox" id={id} className={styles.switch} />
-            <label className={styles.cardContainer} htmlFor={id} >
+            <label className={styles.cardContainer} htmlFor={id}>
                 <div className={styles.card}>
                     <div className={styles.cardInner}>
                         <div className={styles.cardHeader}>
@@ -60,7 +60,7 @@ export default function CharacterCard({
                                 <li className={styles.stat}>
                                     Status:{' '}
                                     <span className={styles.text}>
-                                        {fallback(name)}
+                                        {fallback(status)}
                                     </span>
                                 </li>
                                 <li className={styles.stat}>
