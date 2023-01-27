@@ -19,11 +19,9 @@ export default function Detalhes(data: Character) {
             const children = episodios.map((episode: Episodio) => {
                 return {
                     key: `${temporada}-${episode.id}`,
-                    label:
-                        'Ep. ' +
-                        episode.episode.substring(4) +
-                        ' - ' +
-                        episode.name,
+                    label: `Ep. ${episode.episode.substring(4)} - ${
+                        episode.name
+                    }`,
                     icon: 'pi pi-fw pi-play',
                     children: [
                         {
@@ -32,7 +30,7 @@ export default function Detalhes(data: Character) {
                             icon: 'pi pi-fw pi-external-link',
                         },
                         {
-                            label: 'Air Date: ' + episode.air_date,
+                            label: `Air Date: ${episode.air_date}`,
                             icon: 'pi pi-fw pi-star-fill',
                         },
                     ],
@@ -41,7 +39,7 @@ export default function Detalhes(data: Character) {
 
             return {
                 key: temporada,
-                label: 'Season ' + temporada,
+                label: `Season ${temporada}`,
                 icon: 'pi pi-fw pi-desktop',
                 children: children,
             };
@@ -76,9 +74,9 @@ export default function Detalhes(data: Character) {
 
         if (node.url) {
             label = (
-                <a href={node.url} target="_blank">
+                <Link href={node.url} target="_blank">
                     {node.label}
-                </a>
+                </Link>
             );
         }
 
