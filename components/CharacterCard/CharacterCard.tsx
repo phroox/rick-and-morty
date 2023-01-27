@@ -2,19 +2,7 @@ import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
 import { useId } from 'react';
 import styles from './CharacterCard.module.css';
-
-interface CharacterCardProps {
-    name: string;
-    image: string | StaticImageData;
-    description?: string;
-    status?: string;
-    species?: string;
-    type?: string;
-    gender?: string;
-    origin?: { name: string; url: string };
-    location?: { name: string; url: string };
-    emptyValue?: string;
-}
+import { Character } from '../../pages/models/character_model';
 
 export default function CharacterCard({
     name,
@@ -26,7 +14,7 @@ export default function CharacterCard({
     origin,
     location,
     emptyValue = '#####',
-}: CharacterCardProps) {
+}: Character) {
     const description = 'Opsie doopsie';
 
     const fallback = (

@@ -1,15 +1,16 @@
 import { Tree } from 'primereact/tree';
 import { Image } from 'primereact/image';
 import { Fieldset } from 'primereact/fieldset';
-import 'primeflex/primeflex.css';
 import { api } from './services/detalhes_service';
 import { Chip } from 'primereact/chip';
-import { Detalhe, Episodio, EpTemp } from './models/detalhes_model';
+import { Episodio, EpTemp } from './models/detalhes_model';
 import { GetServerSidePropsContext } from 'next/types';
+import Link from 'next/link';
+import { Character } from './models/character_model';
 
 const defaultUrlEpisode = 'https://rickandmortyapi.com/api/episode/';
 
-export default function Detalhes({ data }: any) {
+export default function Detalhes(data: Character) {
     const { name, image, status, species, gender, location, origin } = data;
 
     const link = (episodios: Array<Episodio>) => {
@@ -90,7 +91,7 @@ export default function Detalhes({ data }: any) {
                 <div className="p-mr-4">
                     <Image
                         className="p-mb-3 character-img"
-                        src={image}
+                        src={image as string}
                         alt="Image"
                         preview
                     />
@@ -141,7 +142,7 @@ export default function Detalhes({ data }: any) {
                             <Fieldset legend="Origin">
                                 <Chip
                                     className="custom-chip"
-                                    label={origin.name}
+                                    label={origin?.name}
                                     icon="pi pi-globe"
                                 />
                             </Fieldset>
@@ -150,7 +151,7 @@ export default function Detalhes({ data }: any) {
                             <Fieldset legend="Location">
                                 <Chip
                                     className="custom-chip"
-                                    label={location.name}
+                                    label={location?.name}
                                     icon="pi pi-map-marker"
                                 />
                             </Fieldset>
@@ -178,20 +179,19 @@ export default function Detalhes({ data }: any) {
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
     const { id } = query;
     const res = await api.get(`/character/${id}`);
-    const req = res.data.episode.map(async (episode: string) => {
+    const req = res.data.episode.map((episode: string) => {
         const idEpisode = episode.substring(40);
-        const resEp = await api.get(`/episode/${idEpisode}`);
-        return {
-            id: resEp.data.id,
-            name: resEp.data.name,
-            episode: resEp.data.episode,
-            air_date: resEp.data.air_date,
-        };
+        return api.get(`/episode/${idEpisode}`);
     });
-    const episodios = await Promise.all(req);
-    const data = { ...res.data, episode: episodios };
-    console.log(data);
+    const resEpisodios = await Promise.all(req);
+    const episodios = resEpisodios.map((ep) => ({
+        id: ep.data.id,
+        name: ep.data.name,
+        episode: ep.data.episode,
+        air_date: ep.data.air_date,
+    }));
+    const data = { ...res.data, episode: episodios } as Character;
     return {
-        props: { data },
+        props: data,
     };
 }
